@@ -7,7 +7,6 @@ import itertools
 import gzip
 import io
 
-MAX_PLOTS = 25
 
 st.set_page_config(page_title="SequenceDot", layout="centered")
 st.title("SequenceDot")
@@ -34,7 +33,7 @@ if mode == "Two sequences":
     include_self   = False
 else:
     multi_file = st.file_uploader(
-        f"Multi-sequence FASTA — up to {MAX_PLOTS} pairwise plots (.fasta, .fa, .fna, or .gz)",
+        "Multi-sequence FASTA (.fasta, .fa, .fna, or .gz). For large datasets, use the command-line tool.",
         type=["fasta", "fa", "fna", "gz"]
     )
     include_self = st.checkbox("Include self-comparisons", value=False)
@@ -172,12 +171,6 @@ if st.button("Generate dotplot(s)", type="primary"):
                 else:
                     pairs = list(itertools.combinations(records, 2))
 
-                if len(pairs) > MAX_PLOTS:
-                    st.warning(
-                        f"{len(pairs)} possible comparisons — "
-                        f"showing the first {MAX_PLOTS}."
-                    )
-                    pairs = pairs[:MAX_PLOTS]
 
                 bar = st.progress(0, text="Generating plots…")
 
